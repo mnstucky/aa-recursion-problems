@@ -262,22 +262,44 @@ end
                         #     [2, 1, 3], [2, 3, 1],
                         #     [3, 1, 2], [3, 2, 1]]
 
+# Your function should always return the optimal change with 
+# optimal being the least amount of coins involved. You can 
+# assume you have an infinite number of coins to work with.
+
 def make_change(amount, coins=[25, 10, 5, 1])
-    # debugger
+    
     return [amount] if coins.include?(amount)
 
     result = []
 
     selection = coins.select { |coin| coin < amount }
     selection.sort.reverse!
-    result << selection[0]
-    result.concat(make_change(amount - selection[0], coins))
+
+    if selection.length == 1
+        result << selection[0]
+        result.concat(make_change(amount - selection[0], coins))
+    else
+        if selection[0] < selection[1]*2 && selection[1]*2 <= amount
+            result << selection[1]
+            result.concat(make_change(amount - selection[1], coins))
+        else
+            result << selection[0]
+            result.concat(make_change(amount - selection[0], coins))
+        end
+    end
+    
+    # this is the "greedy" solution
+    
+    # result << selection[0]
+    # result.concat(make_change(amount - selection[0], coins))
 
 end
 
-p make_change(39)
-p make_change(6)
-p make_change(2)
-p make_change(51)
-p make_change(20)
-p make_change(15, [10, 7, 1])
+# p make_change(39)
+# p make_change(6)
+# p make_change(2)
+# p make_change(51)
+# p make_change(20)
+# p make_change(15, [10, 7, 1])
+# p make_change(24, [10, 7, 1])
+# p make_change(14, [10, 7, 1])
