@@ -258,6 +258,26 @@ def permutations(arr)
     result
 end
 
-p permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
+# p permutations([1, 2, 3]) # => [[1, 2, 3], [1, 3, 2],
                         #     [2, 1, 3], [2, 3, 1],
                         #     [3, 1, 2], [3, 2, 1]]
+
+def make_change(amount, coins=[25, 10, 5, 1])
+    # debugger
+    return [amount] if coins.include?(amount)
+
+    result = []
+
+    selection = coins.select { |coin| coin < amount }
+    selection.sort.reverse!
+    result << selection[0]
+    result.concat(make_change(amount - selection[0], coins))
+
+end
+
+p make_change(39)
+p make_change(6)
+p make_change(2)
+p make_change(51)
+p make_change(20)
+p make_change(15, [10, 7, 1])
